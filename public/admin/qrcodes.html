@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar QR Code — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Daftar QR Code</h1>
+        <div class="sub">Cetak kartu QR untuk absensi karyawan</div>
+      </div>
+      <button class="no-print" id="print-btn">🖨️ Cetak</button>
+    </div>
+    <div class="card">
+      <div class="qr-grid" id="grid"><div class="empty">Memuat...</div></div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-qrcodes.js"></script>
+</body>
+</html>

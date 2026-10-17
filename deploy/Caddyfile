@@ -1,0 +1,18 @@
+# Caddyfile — HTTPS otomatis untuk Absensi New Golden Bakery & Cakes
+#
+# GANTI absensi.domainanda.com dengan domain Anda yang sudah diarahkan
+# (A/AAAA record) ke IP VPS. Caddy akan mengurus sertifikat Let's Encrypt
+# secara otomatis, termasuk renewal — tidak perlu certbot.
+#
+# Pasang:
+#   sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# JANGAN menambahkan header CORS (Access-Control-Allow-Origin) di sini:
+# frontend dan API berada di domain yang sama, jadi CORS tidak diperlukan
+# dan justru memperlebar permukaan serangan.
+
+absensi.domainanda.com {
+    encode gzip zstd
+    reverse_proxy 127.0.0.1:3000
+}

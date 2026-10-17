@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jadwal Kerja — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Jadwal Kerja</h1>
+        <div class="sub">Jam kerja, toleransi keterlambatan, hari kerja &amp; libur</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <form id="form">
+        <div class="field-row">
+          <div class="field"><label for="work_start">Jam Masuk</label><input type="time" id="work_start" required /></div>
+          <div class="field"><label for="work_end">Jam Pulang</label><input type="time" id="work_end" required /></div>
+          <div class="field"><label for="late_tolerance_minutes">Toleransi Terlambat (menit)</label><input type="number" id="late_tolerance_minutes" min="0" max="240" required /></div>
+          <div class="field"><label for="checkout_deadline">Batas Absen Pulang</label><input type="time" id="checkout_deadline" required /></div>
+        </div>
+
+        <div class="field">
+          <label>Hari Kerja</label>
+          <div class="inline-days" id="days"></div>
+        </div>
+
+        <div class="field">
+          <label>Hari Libur (tanggal tertentu)</label>
+          <div class="field-row">
+            <div class="field"><input type="date" id="holiday-input" /></div>
+            <button type="button" class="secondary" id="add-holiday">Tambah Libur</button>
+          </div>
+          <div id="holidays" class="flex gap-1 mt-1" style="flex-wrap:wrap"></div>
+        </div>
+
+        <button type="submit">Simpan Pengaturan</button>
+      </form>
+    </div>
+  </main>
+  <script type="module" src="/js/page-settings-work.js"></script>
+</body>
+</html>

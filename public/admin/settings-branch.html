@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lokasi &amp; Pengaturan — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Lokasi &amp; Pengaturan</h1>
+        <div class="sub">Cabang, validasi lokasi, dan parameter absensi</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Pengaturan Umum</h2></div>
+      <form id="general-form">
+        <div class="field-row">
+          <div class="field"><label for="cooldown">Jeda Scan (detik)</label><input type="number" id="cooldown" min="0" max="3600" /></div>
+          <div class="field"><label for="threshold">Ambang Batas Wajah (0.1 - 2.0)</label><input type="number" id="threshold" step="0.05" min="0.1" max="2" /></div>
+          <div class="field"><label for="active-branch">Cabang Aktif</label><select id="active-branch"></select></div>
+        </div>
+
+        <h3 class="mt-2">Aturan Denda Keterlambatan</h3>
+        <div class="field">
+          <label for="late-mode">Cara Menghitung Denda</label>
+          <select id="late-mode">
+            <option value="per_minute_block">Per Menit (setiap N menit telat)</option>
+            <option value="per_occurrence">Flat (per kejadian telat)</option>
+          </select>
+        </div>
+
+        <div id="mode-block" class="field-row">
+          <div class="field">
+            <label for="late-block-minutes">Setiap Berapa Menit</label>
+            <input type="number" id="late-block-minutes" min="1" max="1440" step="1" />
+            <div class="hint">Contoh: 10 → tiap kelipatan 10 menit telat dihitung 1 blok.</div>
+          </div>
+          <div class="field">
+            <label for="late-per-block">Denda per Blok (Rupiah)</label>
+            <input type="number" id="late-per-block" min="0" step="1000" />
+            <div class="hint">Contoh: 5000 → tiap 10 menit telat dipotong Rp5.000.</div>
+          </div>
+        </div>
+
+        <div id="mode-flat" class="field-row hidden">
+          <div class="field">
+            <label for="late-deduction">Denda per Kejadian Telat (Rupiah)</label>
+            <input type="number" id="late-deduction" min="0" step="1000" />
+            <div class="hint">Berapa pun menit telatnya, dipotong sekali sebesar ini.</div>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--brand-light);border-color:var(--brand);box-shadow:none;padding:0.7rem 0.9rem">
+          <b>Simulasi:</b> <span id="late-sim">-</span>
+        </div>
+
+        <div class="hint mb-1 mt-1">Nilai denda hanya terlihat oleh admin, tidak muncul di akun karyawan.</div>
+
+        <label class="checkbox-line"><input type="checkbox" id="loc-enabled" /> Aktifkan validasi lokasi (geofence)</label>
+        <label class="checkbox-line mt-1"><input type="checkbox" id="liveness-enabled" /> Aktifkan deteksi liveness sederhana (gerakan)</label>
+        <div class="mt-2"><button type="submit">Simpan Pengaturan</button></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <h2>Daftar Cabang</h2>
+        <button id="add-branch">+ Tambah Cabang</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nama</th><th>Alamat</th><th>Koordinat</th><th>Radius (m)</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="branches"><tr><td colspan="6" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal">
+      <div class="modal-head"><h3 id="modal-title">Tambah Cabang</h3></div>
+      <form id="branch-form">
+        <input type="hidden" id="b-id" />
+        <div class="field"><label for="b-name">Nama Cabang *</label><input type="text" id="b-name" required /></div>
+        <div class="field"><label for="b-address">Alamat</label><input type="text" id="b-address" /></div>
+        <div class="field-row">
+          <div class="field"><label for="b-lat">Latitude</label><input type="number" id="b-lat" step="any" /></div>
+          <div class="field"><label for="b-lng">Longitude</label><input type="number" id="b-lng" step="any" /></div>
+        </div>
+        <div class="field"><label for="b-radius">Radius (meter)</label><input type="number" id="b-radius" value="100" min="1" /></div>
+        <button type="button" class="secondary sm" id="use-loc">📍 Gunakan lokasi saya</button>
+        <div class="modal-actions">
+          <button type="button" class="secondary" id="cancel-btn">Batal</button>
+          <button type="submit">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/page-settings-branch.js"></script>
+</body>
+</html>

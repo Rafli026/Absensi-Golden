@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Wajah — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Daftar Wajah Karyawan</h1>
+        <div class="sub">Rekam wajah untuk absensi Face Recognition</div>
+      </div>
+    </div>
+
+    <div class="privacy-banner">
+      🔒 Privasi: yang disimpan hanya <b>vektor matematis (128 angka)</b> dari wajah, <b>bukan foto</b>. Data tidak dapat dipakai untuk merekonstruksi wajah asli.
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="card-title"><h2>Rekam Wajah</h2></div>
+        <div class="field">
+          <label for="employee">Pilih Karyawan</label>
+          <select id="employee"><option value="">- pilih -</option></select>
+        </div>
+        <div class="camera-wrap">
+          <video id="video" autoplay muted playsinline></video>
+          <div class="camera-overlay"><div class="frame"></div></div>
+          <div class="camera-placeholder" id="placeholder">Kamera belum aktif</div>
+        </div>
+        <div class="field-row mt-2">
+          <button id="start-btn">Mulai Kamera</button>
+          <button id="capture-btn" disabled>📸 Ambil &amp; Simpan Wajah</button>
+        </div>
+        <div id="status" class="hint mt-1"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><h2>Profil Wajah Terdaftar</h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nama</th><th>Kode</th><th>Sampel</th><th>Aksi</th></tr></thead>
+            <tbody id="profiles"><tr><td colspan="4" class="empty">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-face-register.js"></script>
+</body>
+</html>

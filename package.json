@@ -1,0 +1,22 @@
+{
+  "name": "sistem-absensi-toko-roti",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistem Absensi Karyawan Toko Roti - QR Code & Face Recognition",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "seed": "node server/seed.js",
+    "test": "node --test",
+    "smoke": "node --test test/smoke.test.js"
+  },
+  "dependencies": {
+    "express": "5.3.0",
+    "qrcode": "1.5.4",
+    "jsqr": "1.4.0",
+    "@vladmandic/face-api": "1.7.15"
+  }
+}

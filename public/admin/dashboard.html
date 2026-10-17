@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Dashboard</h1>
+        <div class="sub">Ringkasan absensi karyawan</div>
+      </div>
+      <div class="field-row no-print">
+        <div class="field">
+          <label for="date">Tanggal</label>
+          <input type="date" id="date" />
+        </div>
+        <div class="field">
+          <label for="branch">Cabang</label>
+          <select id="branch"><option value="">Semua Cabang</option></select>
+        </div>
+        <button class="secondary" id="refresh">Muat Ulang</button>
+      </div>
+    </div>
+
+    <div class="grid cols-3" id="stats"></div>
+
+    <div class="card">
+      <div class="card-title">
+        <h2>Rekap Bulanan Karyawan</h2>
+        <div class="field-row" style="margin:0">
+          <div class="field" style="margin-bottom:0">
+            <label for="period">Bulan</label>
+            <input type="month" id="period" />
+          </div>
+          <button class="secondary sm" id="recap-refresh">Muat</button>
+        </div>
+      </div>
+      <div class="muted mb-1" id="recap-note"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th><th>Kode</th><th>Hadir</th><th>Telat</th><th>Total Menit Telat</th><th>Izin</th>
+              <th>Total Potongan</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="recap-rows"><tr><td colspan="8" class="empty">Memuat...</td></tr></tbody>
+          <tfoot id="recap-foot"></tfoot>
+        </table>
+      </div>
+      <div class="hint">Angka otomatis <b>reset ke 0</b> setiap ganti bulan. Atur aturan denda di <a href="/admin/settings-branch.html">Settings → Lokasi</a>.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Absensi 7 Hari Terakhir</h2></div>
+      <div class="chart" id="chart"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--ok)"></span>Hadir</span>
+        <span><span class="dot" style="background:var(--warn)"></span>Terlambat</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Absensi Terbaru</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Nama</th><th>Tanggal</th><th>Waktu</th><th>Tipe</th><th>Metode</th><th>Status</th></tr>
+          </thead>
+          <tbody id="recent"><tr><td colspan="6" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Export Data — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Export Data Absensi</h1>
+        <div class="sub">Unduh data absensi dalam format CSV (kompatibel Excel)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <form id="form">
+        <div class="field-row">
+          <div class="field"><label for="date_from">Dari Tanggal</label><input type="date" id="date_from" /></div>
+          <div class="field"><label for="date_to">Sampai Tanggal</label><input type="date" id="date_to" /></div>
+          <div class="field"><label for="employee">Karyawan</label><select id="employee"><option value="">Semua</option></select></div>
+          <div class="field"><label for="status">Status</label>
+            <select id="status"><option value="">Semua</option><option>Hadir</option><option>Terlambat</option><option>Pulang</option><option>Izin</option></select>
+          </div>
+          <div class="field"><label for="method">Metode</label>
+            <select id="method"><option value="">Semua</option><option>Barcode/QR</option><option>Face Recognition</option><option>Manual</option></select>
+          </div>
+          <div class="field"><label for="branch">Cabang</label><select id="branch"><option value="">Semua</option></select></div>
+        </div>
+        <button type="submit">⬇️ Unduh CSV</button>
+      </form>
+    </div>
+  </main>
+  <script type="module" src="/js/page-export.js"></script>
+</body>
+</html>

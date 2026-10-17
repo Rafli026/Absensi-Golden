@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="/js/theme-boot.js"></script>
+  <title>Profil — New Golden Bakery</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* Profile-page scoped styles (no global stylesheet changes). */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+    .photo-col { text-align: center; }
+    .avatar-wrap {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--brand-light);
+      color: var(--brand);
+      border: 3px solid var(--panel);
+      box-shadow: var(--shadow);
+      user-select: none;
+    }
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #avatar-fallback {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .photo-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .photo-actions button { width: 170px; }
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 2.7rem; }
+    .pw-toggle {
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 0.25rem 0.4rem;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .pw-toggle:hover { background: transparent; color: var(--text); }
+    .pref-line { display: flex; align-items: flex-start; gap: 0.6rem; }
+    .pref-line .theme-key {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 8px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Profil Saya</h1>
+        <div class="sub">Kelola informasi akun dan keamanan</div>
+      </div>
+    </div>
+
+    <!-- Main profile card -->
+    <div class="card">
+      <div class="card-title"><h2>Informasi Profil</h2></div>
+      <div class="profile-grid">
+        <!-- Photo column -->
+        <div class="photo-col">
+          <div class="avatar-wrap">
+            <img id="avatar-preview" alt="Foto profil" hidden />
+            <div id="avatar-fallback" aria-hidden="true">?</div>
+          </div>
+          <div class="photo-actions">
+            <button type="button" class="secondary" id="pick-photo">Pilih Foto</button>
+            <input type="file" id="photo-input" accept="image/*" hidden />
+            <button type="button" class="danger" id="remove-photo" hidden>Hapus Foto</button>
+          </div>
+          <div class="hint mt-1">JPG/PNG, otomatis diperkecil ke 400×400. Maks ~650 KB.</div>
+        </div>
+
+        <!-- Account data column -->
+        <div>
+          <form id="profile-form">
+            <div class="field">
+              <label for="full_name">Nama Lengkap</label>
+              <input type="text" id="full_name" maxlength="150" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="username">Username</label>
+              <input type="text" id="username" readonly aria-readonly="true" autocomplete="username" />
+              <div class="hint">Username tidak dapat diubah.</div>
+            </div>
+            <div class="field">
+              <label for="role">Peran</label>
+              <input type="text" id="role" readonly aria-readonly="true" />
+            </div>
+            <button type="submit" id="save-profile">Simpan Perubahan</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password card -->
+    <form class="card" id="pw-form">
+      <div class="card-title"><h2>Ubah Password</h2></div>
+      <div class="field">
+        <label for="old_password">Password Lama</label>
+        <div class="pw-wrap">
+          <input type="password" id="old_password" required autocomplete="current-password" />
+          <button type="button" class="pw-toggle" data-toggle-password="old_password"
+                  aria-label="Tampilkan password lama">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="new_password">Password Baru (min. 6 karakter)</label>
+        <div class="pw-wrap">
+          <input type="password" id="new_password" required minlength="6" autocomplete="new-password" />
+          <button type="button" class="pw-toggle" data-toggle-password="new_password"
+                  aria-label="Tampilkan password baru">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="confirm_password">Konfirmasi Password Baru</label>
+        <div class="pw-wrap">
+          <input type="password" id="confirm_password" required minlength="6" autocomplete="new-password" />
+          <button type="button" class="pw-toggle" data-toggle-password="confirm_password"
+                  aria-label="Tampilkan konfirmasi password">👁</button>
+        </div>
+      </div>
+      <button type="submit">Simpan Password</button>
+    </form>
+
+    <!-- Face recognition card -->
+    <div class="card">
+      <div class="card-title"><h2>Face Recognition</h2></div>
+      <div id="face-status" class="muted">Memuat...</div>
+    </div>
+
+    <!-- Display preferences card -->
+    <div class="card">
+      <div class="card-title"><h2>Preferensi Tampilan</h2></div>
+      <div class="pref-line">
+        <span class="theme-key" aria-hidden="true">🌙</span>
+        <div>
+          Tema tampilan dapat diganti kapan saja lewat tombol <b>🌙</b> / <b>☀️</b> di kanan atas
+          navbar. Pilihan tema tersimpan otomatis di perangkat ini.
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-profile.js"></script>
+</body>
+</html>

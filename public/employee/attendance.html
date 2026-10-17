@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Absen — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="card center">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="clock-date" id="clock-date"></div>
+    </div>
+
+    <div class="card">
+      <div id="today-status" class="status-banner gray">Memuat status...</div>
+      <div class="mt-1 muted" id="branch-info"></div>
+    </div>
+
+    <div class="card">
+      <div class="big-buttons">
+        <button class="absent-btn in" id="btn-in">
+          <span class="icon">🟢</span>
+          <span>Absen Masuk</span>
+          <small>QR Code atau Face Recognition</small>
+        </button>
+        <button class="absent-btn out" id="btn-out">
+          <span class="icon">🟠</span>
+          <span>Absen Pulang</span>
+          <small>QR Code atau Face Recognition</small>
+        </button>
+      </div>
+      <div class="hint mt-2 center">Pilih metode setelah tombol: halaman scan akan menawarkan QR &amp; Face Recognition.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Rekap Bulan Ini</h2></div>
+      <div class="grid cols-3" id="month-recap"></div>
+      <div class="hint mt-1">Angka <b>reset ke 0</b> setiap ganti bulan.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Ringkasan Hari Ini</h2></div>
+      <div class="grid cols-2" id="today-detail"></div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-employee-attendance.js"></script>
+</body>
+</html>

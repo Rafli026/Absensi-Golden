@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwayat Absensi — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Riwayat Absensi Saya</h1>
+        <div class="sub">Catatan absensi pribadi</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <h2>Rekap Bulan Ini</h2>
+        <div class="field" style="margin-bottom:0">
+          <input type="month" id="recap-period" />
+        </div>
+      </div>
+      <div class="grid cols-3" id="recap-stats"></div>
+      <div class="hint mt-1">Angka <b>reset ke 0</b> setiap ganti bulan.</div>
+    </div>
+
+    <div class="card">
+      <div class="field-row">
+        <div class="field"><label for="date_from">Dari Tanggal</label><input type="date" id="date_from" /></div>
+        <div class="field"><label for="date_to">Sampai Tanggal</label><input type="date" id="date_to" /></div>
+        <button id="filter-btn">Filter</button>
+        <button class="ghost" id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tanggal</th><th>Waktu</th><th>Tipe</th><th>Metode</th><th>Status</th><th>Lokasi</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="6" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-history.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Absensi — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Data Absensi</h1>
+        <div class="sub">Semua catatan absensi karyawan</div>
+      </div>
+      <a class="btn secondary" href="/admin/export.html">Export CSV</a>
+    </div>
+
+    <div class="card">
+      <div class="field-row">
+        <div class="field"><label for="date_from">Dari Tanggal</label><input type="date" id="date_from" /></div>
+        <div class="field"><label for="date_to">Sampai Tanggal</label><input type="date" id="date_to" /></div>
+        <div class="field"><label for="employee">Karyawan</label><select id="employee"><option value="">Semua</option></select></div>
+        <div class="field"><label for="status">Status</label>
+          <select id="status"><option value="">Semua</option><option>Hadir</option><option>Terlambat</option><option>Pulang</option><option>Izin</option></select>
+        </div>
+        <div class="field"><label for="method">Metode</label>
+          <select id="method"><option value="">Semua</option><option>Barcode/QR</option><option>Face Recognition</option><option>Manual</option></select>
+        </div>
+        <div class="field"><label for="branch">Cabang</label><select id="branch"><option value="">Semua</option></select></div>
+        <button class="secondary" id="filter-btn">Filter</button>
+        <button class="ghost" id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Nama</th><th>Tanggal</th><th>Waktu</th><th>Tipe</th><th>Metode</th><th>Status</th><th>Lokasi</th><th>Catatan</th><th>Aksi</th></tr>
+          </thead>
+          <tbody id="rows"><tr><td colspan="9" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="flex justify-between items-center mt-2">
+        <span class="muted" id="total-info"></span>
+        <span class="gap-1">
+          <button class="secondary sm" id="prev-btn">← Sebelumnya</button>
+          <button class="secondary sm" id="next-btn">Berikutnya →</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Absensi Manual / Koreksi</h2></div>
+      <form id="manual-form" class="field-row">
+        <div class="field"><label for="m-employee">Karyawan</label><select id="m-employee" required><option value="">- pilih -</option></select></div>
+        <div class="field"><label for="m-type">Tipe</label><select id="m-type"><option>Masuk</option><option>Pulang</option></select></div>
+        <div class="field"><label for="m-status">Status</label><select id="m-status"><option>Hadir</option><option>Terlambat</option><option>Pulang</option><option>Izin</option></select></div>
+        <div class="field"><label for="m-date">Tanggal</label><input type="date" id="m-date" /></div>
+        <div class="field"><label for="m-time">Waktu</label><input type="time" id="m-time" /></div>
+        <div class="field"><label for="m-note">Catatan</label><input type="text" id="m-note" /></div>
+        <button type="submit">Simpan</button>
+      </form>
+    </div>
+  </main>
+  <script type="module" src="/js/page-attendance.js"></script>
+</body>
+</html>

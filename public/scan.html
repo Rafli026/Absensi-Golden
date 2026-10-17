@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scan QR — Absensi</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Scan QR Code</h1>
+        <div class="sub">Arahkan QR code ke kamera</div>
+      </div>
+      <a class="btn secondary" href="/face.html">😊 Pakai Face Recognition</a>
+    </div>
+
+    <div class="card center">
+      <div class="field-row mb-1" style="justify-content:center">
+        <div class="field" style="flex:0 0 auto;margin-bottom:0">
+          <label for="camera-select">Pilih Kamera</label>
+          <select id="camera-select" style="min-width:220px">
+            <option value="environment">📷 Kamera Belakang</option>
+            <option value="user">🤳 Kamera Depan</option>
+          </select>
+        </div>
+        <button class="secondary sm" id="switch-btn" title="Ganti kamera">🔄 Ganti</button>
+      </div>
+
+      <div class="camera-wrap">
+        <video id="video" autoplay muted playsinline></video>
+        <div class="camera-overlay"><div class="frame"></div></div>
+        <div class="camera-placeholder" id="placeholder">Meminta akses kamera...</div>
+      </div>
+
+      <div id="result" class="mt-2"></div>
+
+      <div class="field-row mt-2" style="justify-content:center">
+        <button id="rescan-btn" class="secondary hidden">🔄 Scan Ulang</button>
+      </div>
+
+      <div class="hint mt-2">
+        Kamera bermasalah? Gunakan <a href="/face.html">Face Recognition</a> sebagai alternatif.
+      </div>
+    </div>
+  </main>
+  <script src="/vendor/jsqr/jsQR.js"></script>
+  <script type="module" src="/js/page-scan.js"></script>
+</body>
+</html>

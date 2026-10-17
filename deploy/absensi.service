@@ -1,0 +1,37 @@
+# systemd unit — alternatif PM2 (pilih salah satu, jangan dua-duanya).
+#
+# GANTI placeholder berikut sebelum dipakai:
+#   - User / Group      : user non-root pemilik direktori aplikasi
+#   - WorkingDirectory  : lokasi proyek
+#   - EnvironmentFile   : file .env produksi (berisi JWT_SECRET, dll.)
+#   - ExecStart         : path node hasil `which node` (NodeSource: /usr/bin/node)
+#
+# Pasang:
+#   sudo cp deploy/absensi.service /etc/systemd/system/absensi.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now absensi
+#   sudo systemctl status absensi
+
+[Unit]
+Description=Absensi New Golden Bakery & Cakes
+After=network.target
+
+[Service]
+Type=simple
+User=absensi
+Group=absensi
+WorkingDirectory=/opt/absensi-golden
+EnvironmentFile=/opt/absensi-golden/.env
+ExecStart=/usr/bin/node server/index.js
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=20
+# Hardening dasar
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/absensi-golden
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Karyawan — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Data Karyawan</h1>
+        <div class="sub">Kelola karyawan toko</div>
+      </div>
+      <button id="add-btn">+ Tambah Karyawan</button>
+    </div>
+
+    <div class="card">
+      <div class="field-row">
+        <div class="field">
+          <label for="search">Cari</label>
+          <input type="search" id="search" placeholder="Nama, username, atau kode" />
+        </div>
+        <div class="field">
+          <label for="branch">Cabang</label>
+          <select id="branch"><option value="">Semua Cabang</option></select>
+        </div>
+        <div class="field">
+          <label for="active">Status</label>
+          <select id="active">
+            <option value="">Semua</option>
+            <option value="true">Aktif</option>
+            <option value="false">Nonaktif</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Kode</th><th>Nama</th><th>Username</th><th>Jabatan</th><th>Cabang</th><th>Wajah</th><th>Status</th><th>Aksi</th></tr>
+          </thead>
+          <tbody id="rows"><tr><td colspan="8" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal">
+      <div class="modal-head"><h3 id="modal-title">Tambah Karyawan</h3></div>
+      <form id="emp-form">
+        <input type="hidden" id="emp-id" />
+        <div class="field"><label for="f-fullname">Nama Lengkap *</label><input type="text" id="f-fullname" required /></div>
+        <div class="field-row">
+          <div class="field"><label for="f-username">Username *</label><input type="text" id="f-username" required /></div>
+          <div class="field"><label for="f-password">Password <span class="muted" id="pw-hint">*</span></label><input type="text" id="f-password" /></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="f-code">Kode Karyawan</label><input type="text" id="f-code" placeholder="Otomatis (KRY-###)" /></div>
+          <div class="field"><label for="f-position">Jabatan</label><input type="text" id="f-position" /></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="f-phone">Telepon</label><input type="tel" id="f-phone" /></div>
+          <div class="field"><label for="f-join">Tanggal Masuk</label><input type="date" id="f-join" /></div>
+        </div>
+        <div class="field"><label for="f-branch">Cabang</label><select id="f-branch"><option value="">-</option></select></div>
+        <div class="modal-actions">
+          <button type="button" class="secondary" id="cancel-btn">Batal</button>
+          <button type="submit" id="save-btn">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/page-employees.js"></script>
+</body>
+</html>

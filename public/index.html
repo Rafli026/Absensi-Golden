@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk — New Golden Bakery &amp; Cakes</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo"><img src="/img/logo.png" alt="New Golden Bakery & Cakes" class="brand-logo" /></div>
+      <h1>New Golden Bakery &amp; Cakes</h1>
+      <p class="sub">Sistem Absensi Karyawan</p>
+      <form id="login-form">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" required autofocus />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn-block lg" id="login-btn">Masuk</button>
+      </form>
+      <div class="demo-card" id="demo-card">
+        <b>Akun Demo (DEVELOPMENT ONLY)</b><br />
+        Admin: <code>admin</code> / <code>admin123</code><br />
+        Karyawan: <code>budi</code> / <code>budi123</code><br />
+        <span class="muted">Jangan gunakan kredensial ini di produksi.</span>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/js/page-login.js"></script>
+  <script type="module" src="/js/demo-gate.js"></script>
+</body>
+</html>

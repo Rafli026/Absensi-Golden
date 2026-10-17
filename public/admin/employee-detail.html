@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Karyawan — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1 id="title">Detail Karyawan</h1>
+        <div class="sub"><a href="/admin/employees.html">&larr; Kembali ke daftar</a></div>
+      </div>
+      <div class="field-row">
+        <a class="btn secondary" id="face-link" href="#">Daftar Wajah</a>
+        <a class="btn secondary" id="qr-link" href="#" target="_blank">Lihat QR</a>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="card-title"><h2>Profil</h2><button class="secondary sm" id="edit-btn">Edit</button></div>
+        <table>
+          <tbody id="profile"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><h2>QR Code</h2></div>
+        <div class="center">
+          <img id="qr-img" alt="QR Code" style="width:220px;height:220px;image-rendering:pixelated" />
+          <p class="muted" id="qr-code" style="font-family:monospace;font-size:0.8rem;word-break:break-all"></p>
+          <button class="secondary sm" id="regen-btn">Regenerate QR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>Rekap Bulan Ini</h2></div>
+      <div class="grid cols-4" id="emp-recap"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2>10 Absensi Terakhir</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tanggal</th><th>Waktu</th><th>Tipe</th><th>Metode</th><th>Status</th><th>Lokasi</th></tr></thead>
+          <tbody id="recent"><tr><td colspan="6" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal">
+      <div class="modal-head"><h3>Edit Karyawan</h3></div>
+      <form id="edit-form">
+        <div class="field"><label for="e-fullname">Nama Lengkap</label><input type="text" id="e-fullname" /></div>
+        <div class="field-row">
+          <div class="field"><label for="e-position">Jabatan</label><input type="text" id="e-position" /></div>
+          <div class="field"><label for="e-phone">Telepon</label><input type="tel" id="e-phone" /></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="e-join">Tanggal Masuk</label><input type="date" id="e-join" /></div>
+          <div class="field"><label for="e-branch">Cabang</label><select id="e-branch"><option value="">-</option></select></div>
+        </div>
+        <div class="field"><label for="e-password">Password Baru (opsional)</label><input type="text" id="e-password" placeholder="Kosongkan jika tidak diubah" /></div>
+        <div class="field"><label class="checkbox-line"><input type="checkbox" id="e-active" /> Aktif</label></div>
+        <div class="modal-actions">
+          <button type="button" class="secondary" id="cancel-btn">Batal</button>
+          <button type="submit">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/page-employee-detail.js"></script>
+</body>
+</html>

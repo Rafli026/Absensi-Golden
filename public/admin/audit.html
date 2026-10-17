@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audit Log — New Golden Bakery</title>
+  <script src="/js/theme-boot.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Audit Log</h1>
+        <div class="sub">Riwayat aktivitas sistem</div>
+      </div>
+      <button class="secondary" id="refresh">Muat Ulang</button>
+    </div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Waktu</th><th>Aktor</th><th>Aksi</th><th>Entitas</th><th>ID</th><th>Detail</th><th>IP</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="flex justify-between items-center mt-2">
+        <span class="muted" id="total-info"></span>
+        <span class="gap-1">
+          <button class="secondary sm" id="prev">← Sebelumnya</button>
+          <button class="secondary sm" id="next">Berikutnya →</button>
+        </span>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/js/page-audit.js"></script>
+</body>
+</html>
