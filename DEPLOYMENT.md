@@ -63,7 +63,60 @@ Karena itu Caddy + HTTPS bukan opsional.
 
 ---
 
-## 3. Setup Aplikasi
+## 3a. Instalasi Otomatis (cara cepat)
+
+Kalau Anda ingin menempuh jalur cepat, semua langkah di bawah (Node, Caddy,
+user, clone, dependency, `.env`, seed, process manager, HTTPS, firewall, dan
+health check) sudah dibungkus dalam satu skrip idempoten.
+
+```bash
+# Di VPS, setelah clone repo
+sudo bash deploy/setup.sh --pm2 --domain=absensi.domainanda.com
+```
+
+Ganti `--pm2` dengan `--systemd` bila ingin memakai systemd. Opsi lain:
+`--skip-node`, `--skip-caddy`, `--help`.
+
+**Yang dilakukan skrip:**
+
+1. Memastikan dijalankan sebagai root dan mendeteksi Ubuntu/Debian.
+2. Memasang Node.js 22 (hanya jika versi terpasang masih < 22), git, Caddy,
+   dan `sqlite3` (opsional).
+3. Membuat user sistem `absensi` dan direktori `/opt/absensi-golden`.
+4. Clone `https://github.com/Rafli026/Absensi-Golden.git` **hanya jika**
+   `package.json` belum ada.
+5. `npm ci --omit=dev`, lalu membuat `.env` dari `.env.production.example`
+   dengan `JWT_SECRET` acak 64 hex dan permission `600`.
+6. `npm run seed` hanya jika `data/absensi.db` belum ada.
+7. Menjalankan aplikasi lewat PM2 atau systemd (`instances: 1` tetap dipakai).
+8. Memasang Caddyfile untuk domain Anda dan reload Caddy.
+9. Membuka port 22/80/443 di `ufw` **hanya jika** `ufw` sudah aktif.
+10. Menunggu `http://127.0.0.1:3000/api/health` mengembalikan `status: ok`
+    (maksimal 20 detik) dan mencetak ringkasan.
+
+**Sifat idempoten.** Skrip aman dijalankan ulang. Yang sudah ada tidak
+ditimpa: user, direktori berisi kode, database, dan terutama **`.env`**
+(`JWT_SECRET` lama dipertahankan agar semua sesi pengguna tidak ter-logout).
+
+**Yang TIDAK dilakukan skrip:**
+
+- **Tidak mengganti password demo.** Akun `admin/admin123` dan `budi/budi123`
+  tetap ada setelah seed. Ganti lewat **menu Profil** segera setelah login
+  (lihat bagian 4).
+- Tidak menjadwalkan cron backup (lihat bagian 7).
+- Tidak menjalankan `pm2 startup` — perintahnya dicetak di akhir dan harus
+  dijalankan manual karena butuh path environment PM2.
+- Tidak mengaktifkan `ufw` bila belum aktif (berisiko memutus SSH).
+
+**Kapan pakai cara manual (bagian 3–6)?** Gunakan langkah manual bila:
+VPS memakai distro selain Ubuntu/Debian, Node sudah dikelola tool lain
+(nvm/asdf), ada Caddyfile/Nginx lain yang sudah melayani domain, kode
+di-deploy dari arsip (bukan git), atau Anda perlu kendali penuh atas setiap
+langkah (mis. `DB_PATH` di volume terpisah, user service berbeda).
+
+---
+
+## 3. Setup Aplikasi (manual)
 
 ```bash
 # 1. Salin proyek ke /opt
@@ -210,6 +263,39 @@ sudo -u absensi gunzip -c backups/absensi-YYYYMMDD-HHMMSS.db.gz > data/absensi.d
 sudo -u absensi rm -f data/absensi.db-wal data/absensi.db-shm
 sudo systemctl start absensi
 ```
+
+> Cara otomatis (disarankan): lihat **bagian 7a** — `deploy/restore.sh`
+> menangani semua langkah di atas plus health check dan rollback.
+
+---
+
+## 7a. Restore dari Backup
+
+Cara yang disarankan — `deploy/restore.sh` menangani penghentian service,
+penyimpanan database lama, pembersihan `-wal`/`-shm`, dan health check:
+
+```bash
+sudo bash /opt/absensi-golden/deploy/restore.sh \
+  /opt/absensi-golden/backups/absensi-YYYYMMDD-HHMMSS.db.gz
+```
+
+Yang dilakukan skrip:
+
+1. Memvalidasi file (ada, tidak kosong, gzip valid, header SQLite valid).
+2. Mendeteksi process manager yang aktif (PM2 atau systemd) lalu
+   **menghentikannya** agar tidak ada penulis lain saat restore.
+3. Menyalin database saat ini ke `data/absensi.db.before-restore-<timestamp>`
+   sebagai jaring pengaman.
+4. `gunzip -c` ke file sementara, cek header, baru menukarnya menjadi
+   `data/absensi.db`; sisa `-wal`/`-shm` dihapus lebih dulu.
+5. `chown absensi:absensi` dan `chmod 640` pada database.
+6. Menjalankan ulang service dan menunggu `/api/health` (maks. 20 detik).
+
+Jika health check gagal, skrip mencetak perintah rollback lengkap memakai file
+`.before-restore-*`. Simpan file itu sampai Anda yakin datanya benar.
+
+> Restore **menimpa seluruh data** sejak backup dibuat. Pastikan file yang
+> dipilih memang yang dimaksud (`ls -lh backups/`).
 
 ---
 
