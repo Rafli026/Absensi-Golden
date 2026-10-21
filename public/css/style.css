@@ -74,6 +74,8 @@ h2 { font-size: 1.2rem; }
 h3 { font-size: 1rem; }
 
 /* ---------- Layout ---------- */
+/* .topbar is sticky, and a sticky element is already a containing block, so the
+   absolutely-positioned .nav-menu below anchors to the bar itself. */
 .topbar {
   position: sticky;
   top: 0;
@@ -84,19 +86,12 @@ h3 { font-size: 1rem; }
   display: flex;
   align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
-.topbar .brand { font-weight: 700; font-size: 1.1rem; color: #fff; }
-.topbar nav { display: flex; gap: 0.25rem; flex-wrap: wrap; flex: 1; }
-.topbar nav a {
-  color: rgba(255, 255, 255, 0.93);
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-.topbar nav a:hover, .topbar nav a.active { background: rgba(255, 255, 255, 0.18); text-decoration: none; color: #fff; }
-.topbar .user { font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
+.topbar .brand { font-weight: 700; font-size: 1.1rem; color: #fff; min-width: 0; }
+.topbar .brand > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topbar .user { font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; margin-left: auto; min-width: 0; }
 .topbar .user button {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
@@ -112,20 +107,67 @@ h3 { font-size: 1rem; }
   border-color: rgba(255, 255, 255, 0.45) !important;
 }
 .topbar .user button.theme-toggle:hover { background: rgba(0, 0, 0, 0.34) !important; }
-/* Below ~1240px the nav wraps into a second row; a sticky bar that tall would eat the
-   viewport, so it becomes static. The user block keeps its own row alignment. */
-@media (max-width: 1240px) {
-  .topbar { position: static; }
-  .topbar .user { margin-left: auto; }
+.topbar .user button.nav-burger {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1.15rem;
+  line-height: 1;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  flex: 0 0 auto;
 }
-/* Phones: compact the nav so the wrapped topbar does not take half the screen. */
+.topbar .user button.nav-burger:hover { background: rgba(0, 0, 0, 0.34); }
+
+/* Dropdown anchored to the sticky bar, flush with its right padding. */
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 1rem;
+  min-width: 220px;
+  max-width: min(320px, calc(100vw - 2rem));
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  padding: 0.4rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+}
+/* display:flex above would beat the [hidden] UA rule, so restore it explicitly. */
+.nav-menu[hidden] { display: none; }
+.nav-menu a,
+.nav-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.92rem;
+  background: transparent;
+  border: none;
+  font-weight: 500;
+}
+.nav-menu a:hover,
+.nav-menu button:hover { background: var(--panel-2); text-decoration: none; }
+.nav-menu a.active { background: var(--brand-light); color: var(--brand-dark); font-weight: 700; }
+.nav-menu-sep { height: 1px; background: var(--border); margin: 0.35rem 0.3rem; }
+.nav-menu #menu-logout { color: var(--err); }
+.nav-menu #menu-logout:hover { background: var(--err-light); }
+
+/* Phones: hide the user name so the single row never overflows; avatar stays. */
 @media (max-width: 700px) {
   .topbar { gap: 0.5rem; padding: 0.5rem 0.75rem; }
   .topbar .brand { font-size: 1rem; }
-  .topbar nav { gap: 0.15rem; }
-  .topbar nav a { padding: 0.25rem 0.45rem; font-size: 0.82rem; }
   .topbar .user { gap: 0.35rem; font-size: 0.8rem; }
-  .nav-user-link { max-width: 190px; }
+  /* Name only — the initials avatar is a span too, so exclude it. */
+  .nav-user-link > span:not(.nav-avatar) { display: none; }
+  .nav-menu { right: 0.75rem; }
 }
 .nav-user-link {
   display: inline-flex;

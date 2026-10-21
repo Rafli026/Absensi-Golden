@@ -149,6 +149,40 @@ export function initials(name) {
     .toUpperCase() || '?';
 }
 
+/* ---------- Topbar menu ---------- */
+
+/** Open/close the hamburger dropdown and keep the button in sync. */
+function setNavMenuOpen(open, focusBurger = false) {
+  const menu = document.getElementById('nav-menu');
+  const burger = document.getElementById('nav-burger');
+  if (!menu || !burger) return;
+  menu.hidden = !open;
+  burger.setAttribute('aria-expanded', String(open));
+  burger.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+  burger.textContent = open ? '✕' : '☰';
+  if (focusBurger) burger.focus();
+}
+
+// Bound once per page: renderNav re-runs after profile updates, so binding inside it
+// would stack duplicate document listeners.
+let navGlobalBound = false;
+function bindNavGlobalHandlers() {
+  if (navGlobalBound) return;
+  navGlobalBound = true;
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('nav-menu');
+    if (!menu || menu.hidden) return;
+    if (e.target.closest('#nav-menu') || e.target.closest('#nav-burger')) return;
+    setNavMenuOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const menu = document.getElementById('nav-menu');
+    if (!menu || menu.hidden) return;
+    setNavMenuOpen(false, true);
+  });
+}
+
 /** Render the top navigation bar into a <header class="topbar">. */
 export function renderNav(user) {
   const el = document.getElementById('topbar');
@@ -156,22 +190,30 @@ export function renderNav(user) {
   const items = user.role === 'admin' ? NAV_ADMIN : NAV_EMPLOYEE;
   const here = window.location.pathname;
   const links = items
-    .map((i) => `<a href="${i.href}" class="${here === i.href ? 'active' : ''}">${i.label}</a>`)
+    .map((i) => {
+      const active = here === i.href;
+      return `<a href="${i.href}"${active ? ' class="active" aria-current="page"' : ''}>${i.label}</a>`;
+    })
     .join('');
   el.innerHTML = `
     <span class="brand" style="display:flex;align-items:center;gap:0.5rem">
       <img src="/img/logo.png" alt="New Golden Bakery & Cakes" class="brand-logo-sm" />
       <span>New Golden Bakery</span>
     </span>
-    <nav>${links}</nav>
     <span class="user">
       <a class="nav-user-link" href="/profile.html" title="Profil saya">
         ${avatarHtml(user)}
         <span>${escapeHtml(user.full_name)} (${user.role === 'admin' ? 'Admin' : 'Karyawan'})</span>
       </a>
       <button class="sm theme-toggle" id="theme-toggle" title="Ganti tema">🌙</button>
-      <button class="sm" id="nav-logout">Keluar</button>
-    </span>`;
+      <button class="sm nav-burger" id="nav-burger" aria-label="Buka menu" aria-expanded="false" aria-controls="nav-menu">☰</button>
+    </span>
+    <div class="nav-menu" id="nav-menu" hidden>
+      ${links}
+      <div class="nav-menu-sep"></div>
+      <a href="/profile.html">Profil Saya</a>
+      <button type="button" id="menu-logout">Keluar</button>
+    </div>`;
   const themeBtn = document.getElementById('theme-toggle');
   if (themeBtn) {
     themeBtn.textContent = currentTheme() === 'dark' ? '☀️' : '🌙';
@@ -179,7 +221,12 @@ export function renderNav(user) {
     themeBtn.setAttribute('aria-label', themeBtn.title);
     themeBtn.addEventListener('click', toggleTheme);
   }
-  document.getElementById('nav-logout')?.addEventListener('click', () => logout());
+  document.getElementById('nav-burger')?.addEventListener('click', () => {
+    const menu = document.getElementById('nav-menu');
+    setNavMenuOpen(menu ? menu.hidden : false);
+  });
+  document.getElementById('menu-logout')?.addEventListener('click', () => logout());
+  bindNavGlobalHandlers();
 }
 
 /** Avatar markup: profile photo when available, otherwise initials. */
